@@ -1,4 +1,4 @@
-use super::{bvh::Aabb, HitPayload, Hittable};
+use super::{bvh::Aabb, HitPayload, Hittable, HittableList, Range};
 use crate::{material::Material, ray::Ray};
 use cgmath::{prelude::*, Point3, Vector3};
 use std::sync::Arc;
@@ -14,7 +14,7 @@ pub struct Quad {
 }
 
 impl Hittable for Quad {
-    fn hit(&self, ray: &Ray, range: std::ops::Range<f64>) -> Option<HitPayload> {
+    fn hit(&self, ray: &Ray, range: Range<f64>) -> Option<HitPayload> {
         let s = ray.origin - self.q;
         let s1 = ray.direction.cross(self.v);
         let s2 = s.cross(self.u);
@@ -74,5 +74,55 @@ impl Quad {
 
             material,
         })
+    }
+
+    pub fn cuboid(a: Point3<f64>, b: Point3<f64>, material: Material) -> Arc<HittableList> {
+        let mut sides = HittableList::new();
+
+        let min = Point3::new(a.x.min(b.x), a.y.min(b.y), a.z.min(b.z));
+        let max = Point3::new(a.x.max(b.x), a.y.max(b.y), a.z.max(b.z));
+
+        let dx = Vector3::new(max.x - min.x, 0., 0.);
+        let dy = Vector3::new(0., max.y - min.y, 0.);
+        let dz = Vector3::new(0., 0., max.z - min.z);
+
+        sides.push(Quad::new(
+            Point3::new(min.x, min.y, max.z),
+            dx,
+            dy,
+            material.clone(),
+        )); // front
+        sides.push(Quad::new(
+            Point3::new(max.x, min.y, max.z),
+            -dz,
+            dy,
+            material.clone(),
+        )); // right
+        sides.push(Quad::new(
+            Point3::new(max.x, min.y, min.z),
+            -dx,
+            dy,
+            material.clone(),
+        )); // back
+        sides.push(Quad::new(
+            Point3::new(min.x, min.y, min.z),
+            dz,
+            dy,
+            material.clone(),
+        )); // left
+        sides.push(Quad::new(
+            Point3::new(min.x, max.y, max.z),
+            dx,
+            -dz,
+            material.clone(),
+        )); // top
+        sides.push(Quad::new(
+            Point3::new(min.x, min.y, min.z),
+            dx,
+            dz,
+            material.clone(),
+        )); // bottom
+
+        Arc::new(sides)
     }
 }

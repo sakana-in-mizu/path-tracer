@@ -6,10 +6,12 @@ use std::sync::Arc;
 mod bvh;
 mod quad;
 mod shpere;
+mod transform;
 
 pub use bvh::Bvh;
 pub use quad::Quad;
 pub use shpere::Sphere;
+pub use transform::Transform;
 
 use bvh::Aabb;
 

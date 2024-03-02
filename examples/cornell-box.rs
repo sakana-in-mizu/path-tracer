@@ -1,8 +1,8 @@
 use pbr::{
     camera::CameraBuilder,
-    hittable::{Bvh, HittableList, Quad},
+    hittable::{Bvh, HittableList, Quad, Transform},
     material::Material,
-    math::{prelude::*, Point3, Vector3},
+    math::{prelude::*, Deg, Point3, Quaternion, Vector3},
     Color,
 };
 
@@ -48,7 +48,26 @@ fn main() {
         Point3::new(0., 0., 555.),
         Vector3::new(555., 0., 0.),
         Vector3::new(0., 555., 0.),
-        white,
+        white.clone(),
+    ));
+
+    world.push(Transform::new(
+        Quad::cuboid(
+            Point3::new(0., 0., 0.),
+            Point3::new(165., 330., 165.),
+            white.clone(),
+        ),
+        Vector3::new(265., 0., 295.),
+        Quaternion::from_angle_y(Deg(15.)),
+    ));
+    world.push(Transform::new(
+        Quad::cuboid(
+            Point3::new(0., 0., 0.),
+            Point3::new(165., 165., 165.),
+            white,
+        ),
+        Vector3::new(130., 0., 65.),
+        Quaternion::from_angle_y(Deg(-18.)),
     ));
 
     let camera = CameraBuilder::default()
