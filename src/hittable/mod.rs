@@ -4,11 +4,13 @@ use std::ops::Range;
 use std::sync::Arc;
 
 mod bvh;
+mod constant_medium;
 mod quad;
 mod shpere;
 mod transform;
 
 pub use bvh::Bvh;
+pub use constant_medium::ConstantMedium;
 pub use quad::Quad;
 pub use shpere::Sphere;
 pub use transform::Transform;
