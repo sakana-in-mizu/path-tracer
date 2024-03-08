@@ -1,5 +1,5 @@
 [package]
-name = "pbr"
+name = "path-tracer"
 version = "0.1.0"
 edition = "2021"
 

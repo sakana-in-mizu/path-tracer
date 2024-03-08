@@ -1,9 +1,8 @@
-use cgmath::Rotation3;
-use pbr::{
+use path_tracer::{
     camera::CameraBuilder,
     hittable::{Bvh, ConstantMedium, HittableList, Quad, Sphere, Transform},
     material::Material,
-    math::{Deg, Point3, Quaternion, Vector3},
+    math::{Deg, Point3, Quaternion, Vector3, prelude::*},
     texture::{ImageTexture, PerlinTexture},
     Color,
 };

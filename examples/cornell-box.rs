@@ -1,4 +1,4 @@
-use pbr::{
+use path_tracer::{
     camera::CameraBuilder,
     hittable::{Bvh, HittableList, Quad, Transform},
     material::Material,
